@@ -2,7 +2,7 @@ import db from '../../common/databases/connection.js'
 import {SqlFileReader} from "./sql_file_reader"
 
 
-class Runnable {
+export class MessagesRunnable {
     constructor(isUp = true) {
         this.description()
 
