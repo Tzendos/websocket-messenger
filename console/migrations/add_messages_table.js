@@ -1,4 +1,6 @@
 import db from '../../common/databases/connection.js'
+import {SqlFileReader} from "./sql_file_reader"
+
 
 class Runnable {
     constructor(isUp = true) {
@@ -13,9 +15,8 @@ class Runnable {
 
 
     up() {
-        db.conn.query('' , function (error) {
-            
-        });
+        let fileReader = new SqlFileReader()
+        db.connection.query(fileReader.getSqlFromFile('messages.sql'))
     }
 
     drop() {
