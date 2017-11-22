@@ -10,15 +10,21 @@ class Runner {
             this.run();
     }
 
-    run() {
-        console.log('Все успешно запустилось');
+    async run() {
         /**
          * При запуске приложение выведет описание миграции и выполнит SQL инструкции
          * в зависимости от константы isUp в констркуторе класса
          */
-        new ChatsRunnable(); // `chats`
-        new UserChatsRunnable(); // `user_chats`
-        new MessagesRunnable() // `messages`
+        await (new ChatsRunnable()).run(); // `chats`
+        await (new UserChatsRunnable()).run(); // `user_chats`
+        await (new MessagesRunnable().run()); // `messages`
+
+        this.exit()
+    }
+
+    exit() {
+        console.log('Все миграции успешно выполнены!');
+        process.exit(1);
     }
 }
 
@@ -27,5 +33,3 @@ class Runner {
 let runner = new Runner(false);
 runner.run();
 
-// console.log('Все миграции успешно выполнены!');
-// process.exit(1);
