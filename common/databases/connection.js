@@ -8,11 +8,20 @@ exports.connection = mysql.createConnection({
     user: config.params['user'],
     password: config.params['password'],
 });
-exports.connection.connect(function (err) {
-    if (err) {
-        console.error('Ошибка подключения: ' + err.stack);
-        return;
-    }
-    console.log('Успешно подключено к базе данных. Info: ' + exports.connection.threadId);
-});
+function connect() {
+    return new Promise(((resolve, reject) => {
+        exports.connection.connect(function (err) {
+            if (err) {
+                console.error('Ошибка подключения: ' + err.stack);
+                reject(err);
+            }
+            console.log('Успешно подключено к базе данных. Info: ' + exports.connection.threadId);
+            resolve(true);
+        });
+    }));
+}
+async function runner() {
+    await connect();
+}
+runner();
 //# sourceMappingURL=connection.js.map

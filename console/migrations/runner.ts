@@ -27,5 +27,5 @@ class Runner {
 let runner = new Runner(false);
 runner.run();
 
-console.log('Все миграции успешно выполнены!');
-process.exit(1);
+// console.log('Все миграции успешно выполнены!');
+// process.exit(1);
