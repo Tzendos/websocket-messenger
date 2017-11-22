@@ -1,13 +1,13 @@
-import * as config from 'config/config'
+import * as config from '../../config/config';
 
 let mysql = require('mysql')
 
 
 export let connection = mysql.createConnection({
-    host: config.params.database['host'],
-    database: config.params.database['database'],
-    user: config.params.database['user'],
-    password: config.params.database['password'],
+    host: config.params['host'],
+    database: config.params['database'],
+    user: config.params['user'],
+    password: config.params['password'],
 })
 
 connection.connect(function (err) {

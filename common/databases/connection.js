@@ -1,12 +1,12 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const config = require("config/config");
+const config = require("../../config/config");
 let mysql = require('mysql');
 exports.connection = mysql.createConnection({
-    host: config.params.database['host'],
-    database: config.params.database['database'],
-    user: config.params.database['user'],
-    password: config.params.database['password'],
+    host: config.params['host'],
+    database: config.params['database'],
+    user: config.params['user'],
+    password: config.params['password'],
 });
 exports.connection.connect(function (err) {
     if (err) {

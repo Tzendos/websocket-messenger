@@ -1,7 +1,3 @@
--- -----------------------------------------------------
--- Table `mydb`.`messages`
--- -----------------------------------------------------
-
 CREATE TABLE IF NOT EXISTS `messages` (
   `id` INT NOT NULL,
   `chat_id` INT NOT NULL,

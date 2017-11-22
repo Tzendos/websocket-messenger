@@ -6,8 +6,3 @@ CREATE TABLE IF NOT EXISTS `chats` (
   `updated_at` DATETIME NOT NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB;
-
-
-
-
-

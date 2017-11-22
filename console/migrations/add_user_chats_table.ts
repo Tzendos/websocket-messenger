@@ -2,20 +2,24 @@ import * as  db from '../../common/databases/connection';
 import {SqlFileReader} from "./sql_file_reader"
 import {RunnableInterface} from "../../common/interfaces/runnable_interface";
 
-export class MessagesRunnable  implements RunnableInterface {
+export class UserChatsRunnable implements RunnableInterface {
     constructor(isUp = true) {
         this.description();
 
         isUp ? this.up() : this.down()
     }
 
-    public fileExecute = 'messages.sql';
+    /**
+     * Файл с исполняймым sql запросом
+     * @type {string}
+     */
+    public fileExecute = 'user_chats.sql';
 
     /**
      * Описание миграции
      */
     description() {
-        console.log('Добавление таблиц сообщений')
+        console.log('Добавление таблиц пользовательских чатов')
     }
 
     /**

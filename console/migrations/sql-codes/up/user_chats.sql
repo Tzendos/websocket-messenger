@@ -1,7 +1,3 @@
--- -----------------------------------------------------
--- Table `user_chats`
--- -----------------------------------------------------
-
 CREATE TABLE IF NOT EXISTS `user_chats` (
   `id` INT NOT NULL,
   `user_id` INT NOT NULL,
