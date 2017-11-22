@@ -7,6 +7,6 @@
     "ws": "^3.3.2"
   },
   "scripts": {
-    "migrate": "npm ./console/runner"
+    "migrate": "npm ./console/migrations/runner"
   }
 }

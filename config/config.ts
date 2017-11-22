@@ -7,6 +7,3 @@ export let params = {
     'user': 'root',
     'password': 'quadcoreHack',
 };
-
-
-

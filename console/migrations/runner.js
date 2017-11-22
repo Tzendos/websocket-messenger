@@ -23,4 +23,6 @@ class Runner {
 /** Старт установленных миграций */
 let runner = new Runner(false);
 runner.run();
+console.log('Все миграции успешно выполнены!');
+process.exit(1);
 //# sourceMappingURL=runner.js.map
