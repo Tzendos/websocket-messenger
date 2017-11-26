@@ -3,7 +3,9 @@
   "version": "0.0.1",
   "dependencies": {
     "@types/node": "^8.0.53",
+    "@types/ws": "^3.2.0",
     "mysql": "^2.15.0",
+    "request": "^2.83.0",
     "ws": "^3.3.2"
   },
   "scripts": {
