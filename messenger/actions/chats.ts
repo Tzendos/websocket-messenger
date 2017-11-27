@@ -31,20 +31,25 @@ export class ChatsAction implements ActionInterface {
             return;
         }
 
-        let chats = await this.getChats(socket.user.id);
+        try {
+            let chats = await this.getChats(socket.user.id);
 
-        for (let i = 0; i < chats.length; i++) {
-            let users = await this.getUsersFromChat(chats[i].id, socket.user.id);
-            chats[i]['users'] = users;
+            for (let i = 0; i < chats.length; i++) {
+                let users = await this.getUsersFromChat(chats[i].id, socket.user.id);
+                chats[i]['users'] = users;
+            }
+
+            socket.send(
+                JSON.stringify({
+                    'typeMessage': messageObj.typeMessage,
+                    'success': true,
+                    'chats': chats
+                })
+            );
+
+        } catch (ex) {
+            console.log('Обработанная ошибка. ' + ex);
         }
-
-        socket.send(
-            JSON.stringify({
-                'typeMessage': messageObj.typeMessage,
-                'success': true,
-                'chats': chats
-            })
-        );
     }
 
     /**

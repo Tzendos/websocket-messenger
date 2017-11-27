@@ -22,12 +22,16 @@ export class MessageServer {
             socket.isAuth = false;
 
             socket.on('message', function incoming(message: string) {
-                let messageObj = JSON.parse(message);
+                try {
+                    let messageObj = JSON.parse(message);
 
-                if (this.actions[messageObj.typeMessage] != null)
-                    this.actions[messageObj.typeMessage](socket, messageObj);
-                else {
-                    socket.send({'error': 'Неверный тип сообщения'});
+                    if (this.actions[messageObj.typeMessage] != null)
+                        this.actions[messageObj.typeMessage](socket, messageObj);
+                    else {
+                        socket.send({'error': 'Неверный тип сообщения'});
+                    }
+                } catch (ex) {
+                    console.log('Обработанная ошибка. ' + ex);
                 }
             }.bind(this));
         }.bind(this));

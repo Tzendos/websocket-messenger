@@ -31,18 +31,22 @@ export class AuthAction implements ActionInterface {
 
         let token = messageObj['token'];
 
-        let user = await checkToken(token);
+        try {
+            let user = await checkToken(token);
 
-        if (user) {
-            socket.isAuth = true;
-            socket.user = user;
-            socket.send(JSON.stringify({'typeMessage': messageObj.typeMessage, 'success': true}));
-        } else {
-            socket.send(JSON.stringify({
-                'typeMessage': messageObj.typeMessage,
-                'success': false,
-                'message': 'Ошибка авторизации. Возможно неверный токен'
-            }));
+            if (user) {
+                socket.isAuth = true;
+                socket.user = user;
+                socket.send(JSON.stringify({'typeMessage': messageObj.typeMessage, 'success': true}));
+            } else {
+                socket.send(JSON.stringify({
+                    'typeMessage': messageObj.typeMessage,
+                    'success': false,
+                    'message': 'Ошибка авторизации. Возможно неверный токен'
+                }));
+            }
+        } catch (ex) {
+            console.log('Обработанная ошибка. ' + ex);
         }
     }
 

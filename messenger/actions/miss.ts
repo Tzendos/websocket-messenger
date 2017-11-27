@@ -34,15 +34,19 @@ export class MissAction implements ActionInterface {
             return;
         }
 
-        let messages = await this.getUnreadMessage(socket.user.id);
+        try {
+            let messages = await this.getUnreadMessage(socket.user.id);
 
-        socket.send(
-            JSON.stringify({
-                'typeMessage': messageObj.typeMessage,
-                'success': true,
-                'messages': messages
-            })
-        );
+            socket.send(
+                JSON.stringify({
+                    'typeMessage': messageObj.typeMessage,
+                    'success': true,
+                    'messages': messages
+                })
+            );
+        } catch (ex) {
+            console.log('Обработанная ошибка. ' + ex);
+        }
     }
 
     getUnreadMessage(userId) {

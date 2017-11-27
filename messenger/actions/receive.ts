@@ -31,22 +31,26 @@ export class ReceiveAction implements ActionInterface {
             return;
         }
 
-        let isChatExists = await this.checkChatExists([socket.user.id, messageObj.userId]);
+        try {
+            let isChatExists = await this.checkChatExists([socket.user.id, messageObj.userId]);
 
-        if (isChatExists.length == 1) {
-            let messages = await this.getMessageFromChat(isChatExists[0].id);
+            if (isChatExists.length == 1) {
+                let messages = await this.getMessageFromChat(isChatExists[0].id);
 
-            socket.send(JSON.stringify({
-                'typeMessage': messageObj.typeMessage,
-                'success': true,
-                'messages': messages
-            }));
-        } else {
-            socket.send(JSON.stringify({
-                'typeMessage': messageObj.typeMessage,
-                'success': true,
-                'message': []
-            }));
+                socket.send(JSON.stringify({
+                    'typeMessage': messageObj.typeMessage,
+                    'success': true,
+                    'messages': messages
+                }));
+            } else {
+                socket.send(JSON.stringify({
+                    'typeMessage': messageObj.typeMessage,
+                    'success': true,
+                    'messages': []
+                }));
+            }
+        } catch (ex) {
+            console.log('Обработанная ошибка. ' + ex);
         }
     }
 

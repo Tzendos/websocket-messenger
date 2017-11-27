@@ -44,8 +44,12 @@ export class SendAction implements ActionInterface {
         } else {
             chat_id = await this.createChat();
 
-            await this.addUserInChat(chat_id, socket.user.id);
-            await this.addUserInChat(chat_id, messageObj.to_user_id);
+            try {
+                await this.addUserInChat(chat_id, socket.user.id);
+                await this.addUserInChat(chat_id, messageObj.to_user_id);
+            } catch (ex) {
+                console.log('Ошибка при добавлении пользователей в чат. ' + ex);
+            }
         }
 
         if (chat_id == 0) {
@@ -57,42 +61,46 @@ export class SendAction implements ActionInterface {
             return;
         }
 
-        // Добавление сообщение в БД
-        let messageId = await this.sendMessage(chat_id, socket.user.id, messageObj.message);
+        try {
+            // Добавление сообщение в БД
+            let messageId = await this.sendMessage(chat_id, socket.user.id, messageObj.message);
 
-        // Отправка сообщения на сокет
+            // Отправка сообщения на сокет
 
-        let toSocket = null;
+            let toSocket = null;
 
-        this.wss.clients.forEach((currentSocket) => {
-            if(currentSocket.user.id == messageObj.to_user_id) {
-                toSocket = currentSocket;
+            this.wss.clients.forEach((currentSocket) => {
+                if (currentSocket.user.id == messageObj.to_user_id) {
+                    toSocket = currentSocket;
+                }
+            });
+
+            let sentUser = socket.user;
+
+            if (toSocket) {
+                toSocket.send(JSON.stringify({
+                    'typeMessage': 'newMessage',
+                    'success': true,
+                    'sentUser': {
+                        'userId': sentUser.id,
+                        'username': sentUser.username,
+                        'first_name': sentUser.first_name,
+                        'second_name': sentUser.second_name,
+                        'avatar_link': sentUser.avatar_link
+                    },
+                    'message': messageObj.message,
+                    'created_at': new Date().toISOString().slice(0, 19).replace('T', ' '),
+                }));
             }
-        });
 
-        let sentUser = socket.user;
-
-        if (toSocket) {
-            toSocket.send(JSON.stringify({
-                'typeMessage': 'newMessage',
+            socket.send(JSON.stringify({
+                'typeMessage': messageObj.typeMessage,
                 'success': true,
-                'sentUser': {
-                    'userId': sentUser.id,
-                    'username': sentUser.username,
-                    'first_name': sentUser.first_name,
-                    'second_name': sentUser.second_name,
-                    'avatar_link': sentUser.avatar_link
-                },
-                'message': messageObj.message,
-                'created_at': new Date().toISOString().slice(0, 19).replace('T', ' '),
+                'messageId': messageId
             }));
+        } catch (ex) {
+            console.log('Обработанная ошибка. ' + ex);
         }
-
-        socket.send(JSON.stringify({
-            'typeMessage': messageObj.typeMessage,
-            'success': true,
-            'messageId': messageId
-        }));
     }
 
     /**
