@@ -31,6 +31,16 @@ export class ReceiveAction implements ActionInterface {
             return;
         }
 
+        if(socket.user.id == messageObj.userId) {
+            socket.send(JSON.stringify({
+                'typeMessage': messageObj.typeMessage,
+                'success': true,
+                'messages': []
+            }));
+
+            return;
+        }
+
         try {
             let isChatExists = await this.checkChatExists([socket.user.id, messageObj.userId]);
 
