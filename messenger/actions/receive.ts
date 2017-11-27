@@ -63,7 +63,7 @@ export class ReceiveAction implements ActionInterface {
     async getMessageFromChat(chatId) {
         return new Promise((resolve, reject) => {
             connection.query(
-                'SELECT users.id as userId, users.username, users.first_name, users.second_name, users.avatar_link, messages.* FROM messages\n' +
+                'SELECT users.username, users.first_name, users.second_name, users.avatar_link, messages.* FROM messages\n' +
                 'LEFT JOIN users on users.id = messages.user_id\n' +
                 'WHERE messages.chat_id = ?\n' +
                 'ORDER BY `id` ASC',
