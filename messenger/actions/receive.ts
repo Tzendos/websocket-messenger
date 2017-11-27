@@ -44,8 +44,8 @@ export class ReceiveAction implements ActionInterface {
         } else {
             socket.send(JSON.stringify({
                 'typeMessage': messageObj.typeMessage,
-                'success': false,
-                'message': 'У вас нет сообщений с данным пользователем.'
+                'success': true,
+                'message': []
             }));
         }
     }
