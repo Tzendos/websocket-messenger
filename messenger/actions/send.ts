@@ -78,7 +78,7 @@ export class SendAction implements ActionInterface {
             let sentUser = socket.user;
 
             if (toSocket) {
-                console.log(JSON.stringify(toSocket));
+                console.log(JSON.stringify(toSocket.user));
 
                 toSocket.send(JSON.stringify({
                     'typeMessage': 'newMessage',
