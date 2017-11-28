@@ -71,7 +71,7 @@ export class SendAction implements ActionInterface {
 
             this.wss.clients.forEach((currentSocket) => {
                 if (currentSocket.user.id == messageObj.to_user_id) {
-                    toSocket = currentSocket;
+                    toSocket = Object.assign({}, currentSocket);
                 }
             });
 
